@@ -1,0 +1,67 @@
+name: MM5451-ci
+
+on:
+  push:
+    branches:
+      - "main"
+    tags:
+      - "*"
+  pull_request:
+
+jobs:
+  # cpp-linter:
+  #   name: clang-tidy (delinter)
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: shenxianpeng/cpp-linter-action@v1
+  #       id: linter
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       with:
+  #         style: file
+
+  #     - name: Fail if lint required
+  #       if: steps.linter.outputs.checks-failed > 0
+  #       run: |
+  #         echo "Some files failed the linting checks!"
+  #       # exit 1
+
+  examples-builder:
+    # Uses a matrix strat
+    name: Examples Builder
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        example:
+          - binary_counting
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Cache pip
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Cache PlatformIO
+        uses: actions/cache@v2
+        with:
+          path: ~/.platformio
+          key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
+      
+      - name: Set up Python
+        uses: actions/setup-python@v2
+      
+      - name: Install PlatformIO
+        run: |
+          python -m pip install --upgrade pip
+          pip install --upgrade platformio
+      
+      - name: Test Individual Examples
+        run: |
+          pio ci examples/${{ matrix.example }}/src/main.cpp --lib=. --board=nanoatmega328
