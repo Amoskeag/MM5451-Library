@@ -10,39 +10,37 @@
 
 #include <Arduino.h>
 #include "MM5451.h"
-#define CLK 8     //Connect to pin 21 on the MM5451
-#define DATAPIN 9 //Connect to pin 22 on the MM5451
-
+#define CLK 8	  // Connect to pin 21 on the MM5451
+#define DATAPIN 9 // Connect to pin 22 on the MM5451
 
 int matrix[35] = {
-  1, 0, 1, 1, 0, 1, 0,
-  0, 1, 0, 1, 0, 0, 1,
-  0, 1, 0, 1, 0, 1, 1,
-  0, 1, 0, 1, 0, 0, 1,
-  1, 0, 1, 1, 0, 1, 0
-}
+	1, 0, 1, 1, 0, 1, 0,
+	0, 1, 0, 1, 0, 0, 1,
+	0, 1, 0, 1, 0, 1, 1,
+	0, 1, 0, 1, 0, 0, 1,
+	1, 0, 1, 1, 0, 1, 0}
 
-void setup()
+void
+setup()
 {
 	Serial.begin(9600);
 
-
-	//Set Arduino pin modes to OUTPUT
+	// Set Arduino pin modes to OUTPUT
 	pinMode(CLK, OUTPUT);
 	pinMode(DATAPIN, OUTPUT);
 
-	//Write a 0 to start.
+	// Write a 0 to start.
 	digitalWrite(CLK, 0);
 	digitalWrite(DATAPIN, 0);
 
-}//End Setup
+} // End Setup
 
-//Loop this forever! Or until you stop it. or the Heat Death of the Universe, your call~
+// Loop this forever! Or until you stop it. or the Heat Death of the Universe, your call~
 void loop()
 {
 	for (int myCount = 0; myCount <= 35; myCount++)
 	{
-		//Start Bit
+		// Start Bit
 		digitalWrite(DATAPIN, 1);
 		pulseCLK();
 
@@ -51,18 +49,16 @@ void loop()
 			digitalWrite(DATAPIN, matrix[i]);
 			pulseCLK();
 		}
-
-
 	}
-	//shift to scroll image
+	// shift to scroll image
 
-	//short delay
+	// short delay
 	delay(100);
 	shiftMatrix(matrix);
 
-}//End Loop
+} // End Loop
 
-void shiftMatrix(int(&data)[35])
+void shiftMatrix(int (&data)[35])
 {
 	int temp = data[0];
 
@@ -74,11 +70,9 @@ void shiftMatrix(int(&data)[35])
 
 	return data;
 }
-//Pulse the Clock
+// Pulse the Clock
 void pulseCLK()
 {
 	digitalWrite(CLK, 1);
 	digitalWrite(CLK, 0);
 }
-
-
