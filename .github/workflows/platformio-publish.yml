@@ -35,7 +35,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install --upgrade platformio
 
+      - name: Login
+        run: |
+          pio account login -u "$USERNAME" -p "$PASSWORD"
+
       - name: Publish
+        run: |
+          pio pkg publish
+
+      - name: Save Pack
         run: |
           pio pkg pack
 
