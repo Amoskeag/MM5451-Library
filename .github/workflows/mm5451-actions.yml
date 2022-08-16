@@ -36,6 +36,7 @@ jobs:
       matrix:
         example:
           - binary_counting
+          - scrolling_text
 
     steps:
       - uses: actions/checkout@v3
