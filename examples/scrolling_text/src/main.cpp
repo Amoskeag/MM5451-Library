@@ -10,18 +10,23 @@
 
 #include <Arduino.h>
 #include "MM5451.h"
+
 #define CLK 8	  // Connect to pin 21 on the MM5451
 #define DATAPIN 9 // Connect to pin 22 on the MM5451
 
-int matrix[35] = {
+// Example text matrix
+uint16_t matrix[35] = {
 	1, 0, 1, 1, 0, 1, 0,
 	0, 1, 0, 1, 0, 0, 1,
 	0, 1, 0, 1, 0, 1, 1,
 	0, 1, 0, 1, 0, 0, 1,
-	1, 0, 1, 1, 0, 1, 0}
+	1, 0, 1, 1, 0, 1, 0};
 
-void
-setup()
+// Prototypes
+void shiftMatrix(uint16_t (&data)[35]);
+void pulseCLK();
+
+void setup()
 {
 	Serial.begin(9600);
 
@@ -32,19 +37,18 @@ setup()
 	// Write a 0 to start.
 	digitalWrite(CLK, 0);
 	digitalWrite(DATAPIN, 0);
-
-} // End Setup
+}
 
 // Loop this forever! Or until you stop it. or the Heat Death of the Universe, your call~
 void loop()
 {
-	for (int myCount = 0; myCount <= 35; myCount++)
+	for (uint16_t myCount = 0; myCount <= 35; myCount++)
 	{
 		// Start Bit
 		digitalWrite(DATAPIN, 1);
 		pulseCLK();
 
-		for (int i = 0; i < 35; i++)
+		for (uint16_t i = 0; i < 35; i++)
 		{
 			digitalWrite(DATAPIN, matrix[i]);
 			pulseCLK();
@@ -55,14 +59,13 @@ void loop()
 	// short delay
 	delay(100);
 	shiftMatrix(matrix);
+}
 
-} // End Loop
-
-void shiftMatrix(int (&data)[35])
+void shiftMatrix(uint16_t (&data)[35])
 {
-	int temp = data[0];
+	uint16_t temp = data[0];
 
-	for (int i = 0; i < 34; i++)
+	for (uint16_t i = 0; i < 34; i++)
 	{
 		data[i] = data[i + 1];
 	}
@@ -70,6 +73,7 @@ void shiftMatrix(int (&data)[35])
 
 	return data;
 }
+
 // Pulse the Clock
 void pulseCLK()
 {
