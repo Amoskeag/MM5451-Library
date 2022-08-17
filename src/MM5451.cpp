@@ -13,6 +13,13 @@ MM5451::LED_Driver(int DataPin, int CLK)
 	digitalWrite(CLK, 0);
 	digitalWrite(DataPin, 0);
 
+	//Initize so shifting works properly.
+  	for( int i = 0; i < 35; i++ )
+  	{
+    	digitalWrite(DATABIT, 0);
+    	pulseCLK();
+  	}
+
 	_DataPin = DataPin;
 	_CLK = CLK;
 }
