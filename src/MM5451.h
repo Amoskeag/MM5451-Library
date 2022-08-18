@@ -8,7 +8,7 @@
 #ifndef MM5451_h
 #define MM5451_h
 
-#if (ARDUINO >= 100)
+#if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
 #else
 #include "WProgram.h"
@@ -61,7 +61,7 @@ private:
 	
 	uint8_t lookUpTable[] = {
 		0x1111110,	//0
-		0x110000,	//1
+		0x1100000,	//1
 		0x1101101,	//2
 		0x1111001,	//3
 		0x0110011,	//4
