@@ -20,8 +20,9 @@ MM5451::LED_Driver(int DataPin, int CLK)
     	pulseCLK();
   	}
 
-	_DataPin = DataPin;
-	_CLK = CLK;
+	_size = 35;			//35 outputs
+	_DataPin = DataPin;	//Set Data Pin
+	_CLK = CLK;			//Set Clock Pin
 }
 
 MM5451::getDataPin()
@@ -42,12 +43,12 @@ MM5451::ShiftDataLeft(int (&data)[35])
 {
 	int temp = data[0]; //Hold First
 
-    for (int i = 0; i < n - 1; i++)
+    for (int i = 0; i < _size - 1; i++)
     {
       data[i] = data[i + 1]; //move all element to the left except first one
     }
 
-    data[n - 1] = temp;
+    data[_size - 1] = temp;
 
   	return data;
 }
@@ -58,12 +59,12 @@ MM5451::ShiftDataRight(int (&data)[35])
 
 	int temp = data[0]; //Hold First 
 	
-    for (int i = 0; i < 34; i++)
+    for (int i = 0; i < _size - 1; i++)
     {
       data[i + 1] = data[i]; //move all element to the Right except first one
     }
 
-    data[34] = temp; //Set the held value to new position.
+    data[_size - 1] = temp; //Set the held value to new position.
 
   	return data;
 }
@@ -84,7 +85,7 @@ MM5451::ScrollData(bool d, int(&data)[35])
 		int temp4 = data[21];
 		int temp5 = data[28];
 	
-		for (int i = 0; i < n; i++)
+		for (int i = 0; i < _size; i++)
 		{
 			data[i] = data[i + 1];
 		}
@@ -103,7 +104,7 @@ MM5451::ScrollData(bool d, int(&data)[35])
 		int temp4 = data[27];//27
 		int temp5 = data[34];//34
 	
-		for (int i = n - 1; i >= 0; i--)
+		for (int i = _size - 1; i >= 0; i--)
 		{
 			data[i + 1] = data[i];
 		}
