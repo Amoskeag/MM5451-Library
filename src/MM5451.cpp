@@ -3,7 +3,7 @@
 /*
  * A LED Driver needs a Data pin, Clock pin, and Brightness control, for 35 outputs.
  */
-MM5451::LED_Driver(int DataPin, int CLK)
+void MM5451::LED_Driver(int DataPin, int CLK)
 {
 	//Construct the object here.
 	pinMode(DataPin, OUTPUT);
@@ -25,21 +25,21 @@ MM5451::LED_Driver(int DataPin, int CLK)
 	_CLK = CLK;			//Set Clock Pin
 }
 
-MM5451::getDataPin()
+int MM5451::getDataPin()
 {
 	//returns the assigned DataPin value.
 	return _DataPin;
 }
 
 //Pulse the Clock of the MM5451
-MM5451::pulseCLK()
+void MM5451::pulseCLK()
 {
 	digitalWrite(_CLK, 1);
 	digitalWrite(_CLK, 0);
 }
 
 //Shift Data to the Left. First element becomes last element.
-MM5451::ShiftDataLeft(int (&data)[35])
+void M5451::ShiftDataLeft(int (&data)[35])
 {
 	int temp = data[0]; //Hold First
 
@@ -54,7 +54,7 @@ MM5451::ShiftDataLeft(int (&data)[35])
 }
 
 //Shift data in the array to the next element to the right. Last element becomes the first element.
-MM5451::ShiftDataRight(int (&data)[35])
+void MM5451::ShiftDataRight(int (&data)[35])
 {
 
 	int temp = data[0]; //Hold First 
@@ -75,7 +75,7 @@ MM5451::ShiftDataRight(int (&data)[35])
  * @param d 
  * @param data 
  */
-MM5451::ScrollData(bool d, int(&data)[35])
+void MM5451::ScrollData(bool d, int(&data)[35])
 {
 	if(d)
 	{
@@ -123,7 +123,7 @@ MM5451::ScrollData(bool d, int(&data)[35])
 /*address the pins of the selected 7 seg display.
 *	*NEEDS WORK: I DONT HAVE A PLAN FOR THIS AT THE MOMENT.*
 */
-MM5451::displaySSeg(bool b, int (&data)[35], int segArr[5])
+void MM5451::displaySSeg(bool b, int (&data)[35], int segArr[5])
 {
 	//Lookup table contains 0-F characters. 
 
@@ -167,7 +167,7 @@ MM5451::displaySSeg(bool b, int (&data)[35], int segArr[5])
 }
 
 //SendData is given a 35 Bits
-MM5451::SendData(int (&data)[35])
+void MM5451::SendData(int (&data)[35])
 {
 	//Prepare for Transmission
 	digitalWrite(_DataPin, 1);
