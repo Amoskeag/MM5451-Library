@@ -41,7 +41,7 @@ jobs:
 
       - name: Publish
         run: |
-          pio pkg publish
+          pio pkg publish --no-interactive
 
       - name: Save Pack
         run: |
