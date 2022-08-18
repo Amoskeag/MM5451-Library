@@ -33,6 +33,9 @@ public:
 	//Scroll the data held in the Array Right. Returns array.
 	ShiftDataRight(int (&data)[35]);
 
+	//Scroll the data across the screen to the left or right.
+	ScrollData(bool d, int (&data)[35]);
+
 	/*Displays Characters on a 7 segment display. Boolean defines
 	* if you are using Common Cathode or Common Annode (True CC, False CA).
 	*/
@@ -41,6 +44,7 @@ public:
 
 
 private:
+
 	int _DataPin;
 	int _CLK;
 
@@ -81,7 +85,7 @@ private:
 	 *
 	 * @param _array
 	 */
-	SendData(uint8_t _array[]);
+	SendData(int (&data)[35]);
 
 	/**
 	 * @brief It just dootdoot
