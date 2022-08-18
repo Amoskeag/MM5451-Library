@@ -37,7 +37,7 @@ jobs:
 
       - name: Login
         run: |
-          pio account login -u "$USERNAME" -p "$PASSWORD"
+          pio account login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
 
       - name: Publish
         run: |
